@@ -1,0 +1,29 @@
+server:
+  port: 9080
+spring:
+  datasource:
+    password: root
+    url: jdbc:mysql://localhost:3306/sbms36
+    username: root
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  mail:
+    host: smtp.gmail.com
+    password: zjnhcqmaztbmlbir
+    port: 587
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+    username: anilkumargen03@gmail.com
+
+app:
+  messages:
+    invalidLogin: invalid credentials!
+    userSaved: User saved Successfully...
+    userNotSaved: User not saved, something went wrong!
+    passwordNotUpdated: something went wrong

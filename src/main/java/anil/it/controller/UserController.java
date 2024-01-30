@@ -1,6 +1,5 @@
 package anil.it.controller;
 
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +10,8 @@ import org.springframework.web.bind.annotation.*;
 import anil.it.binding.LoginForm;
 import anil.it.binding.RegistrationForm;
 import anil.it.binding.UpdatePasswordForm;
-import anil.it.entity.Country;
 import anil.it.entity.User;
+import anil.it.props.AppProps;
 import anil.it.service.UserService;
 
 @Controller
@@ -20,6 +19,9 @@ public class UserController {
 	
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private AppProps appProps;
 	
 	@GetMapping("/")
 	public String index(Model model) {
@@ -29,10 +31,9 @@ public class UserController {
 	
 	@GetMapping("/login")
 	public String login(LoginForm loginForm, Model model) {
-		
 		User user = userService.loginCheck(loginForm);
 		if(user == null) {
-			model.addAttribute("msg", "invalid credentials!");
+			model.addAttribute("msg", appProps.getMessages().get("invalidLogin"));
 			return "index";
 		}
 		
@@ -76,9 +77,9 @@ public class UserController {
 		
 		boolean saved = userService.registerUser(user);
 		if (saved) {
-			model.addAttribute("msg", "User saved Successfully...");
+			model.addAttribute("msg", appProps.getMessages().get("userSaved"));
 		}else {
-			model.addAttribute("msg", "User not saved, something went wrong");
+			model.addAttribute("msg", appProps.getMessages().get("userNotSaved"));
 		}
 		
 		return "Registration_page";
@@ -93,7 +94,7 @@ public class UserController {
 		if(status) {
 			return "redirect:quote";
 		}
-		model.addAttribute("msg", "something went wrong");
+		model.addAttribute("msg", appProps.getMessages().get("passwordNotUpdated"));
 		return "set_new_password";
 		
 	}
